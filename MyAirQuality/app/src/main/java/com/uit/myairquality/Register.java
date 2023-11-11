@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class Register extends AppCompatActivity {
     EditText username, password, repassword, email;
-    TextView txtToken, WebView;
+
     Button signup, btnBackRegister;
     APIInterface apiInterface;
 
@@ -63,10 +63,6 @@ public class Register extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                username = (EditText) findViewById(R.id.Username);
-                password = (EditText) findViewById(R.id.Password);
-                repassword = (EditText) findViewById(R.id.ReType);
-                email = (EditText) findViewById(R.id.Email);
                 if(username.getText().toString().isEmpty() || password.getText().toString().isEmpty() || repassword.getText().toString().isEmpty()||email.getText().toString().isEmpty())
                 {
                     Toast.makeText(Register.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
@@ -102,12 +98,26 @@ public class Register extends AppCompatActivity {
                     String usrScript = "document.getElementById('username').value='" + username.toString() + "';";
                     String emailScript = "document.getElementById('email').value='" + email.toString()+ "';";
                     String pwdScript = "document.getElementById('password').value='" + password.toString() + "';";
-                    String rePwdScript = "document.getElementById('password-confirm).value='" + repassword.toString() + "';";
+                    String rePwdScript = "document.getElementById('password-confirm').value='" + repassword.toString() + "';";
+                    String aV2 = "javascript:(function(){document.getElementById('username').value = '"+username.toString()+"';";
+                    String bV2 = "javascript:(function(){document.getElementById('email').value = '"+email.toString()+"';";
+                    String cV2 = "javascript:(function(){document.getElementById('password').value = '"+password.toString()+"';";
+                    String dV2 = "javascript:(function(){document.getElementById('password-confirm').value = '"+repassword.toString()+"';";
 
-                    view.evaluateJavascript(usrScript, null);
+
+
+
+                   /* view.evaluateJavascript(usrScript, null);
                     view.evaluateJavascript(emailScript, null);
                     view.evaluateJavascript(pwdScript, null);
                     view.evaluateJavascript(rePwdScript, null);
+                   */
+                    view.evaluateJavascript(aV2, null);
+                    view.evaluateJavascript(bV2, null);
+                    view.evaluateJavascript(cV2, null);
+                    view.evaluateJavascript(dV2, null);
+
+
                     //view.evaluateJavascript("document.getElementByName('register').submit()", null);
                     Log.d("on Page Finished", "script");
 
@@ -118,7 +128,11 @@ public class Register extends AppCompatActivity {
                         }
                     });
 
+                    Intent intent = new Intent(Register.this, Settings.class);
+                    startActivity(intent);
+
                 }
+
 
 
             }
@@ -130,10 +144,13 @@ public class Register extends AppCompatActivity {
             }
 
 
+
         });
+
 
         String url = "https://uiot.ixxc.dev/auth/realms/master/protocol/openid-connect/registrations?client_id=openremote&redirect_uri=https%3A%2F%2Fuiot.ixxc.dev%2Fmanager%2F&response_mode=fragment&response_type=code&scope=openid";
         webView.loadUrl(url);
+
     }
 
         /*private void loadJs(webView: WebView) {
